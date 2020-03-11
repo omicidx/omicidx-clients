@@ -1,0 +1,2239 @@
+openapi: 3.0.2
+info:
+  description: |2+
+
+
+
+
+    The OmicIDX API documentation is available in three forms:
+
+    - [RapiDoc](/docs)
+    - [OpenAPI/Swagger Interactive](/swatterdoc)
+    - [ReDoc (more readable in some ways)](/redoc)
+
+  title: OmicIDX
+  version: "0.99"
+servers:
+- url: /
+paths:
+  /sra/fields/{entity}:
+    get:
+      operationId: mapping_sra_fields__entity__get
+      parameters:
+      - explode: false
+        in: path
+        name: entity
+        required: true
+        schema:
+          enum:
+          - studies
+          - runs
+          - experiments
+          - samples
+          title: Entity
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Mapping
+      tags:
+      - SRA
+  /sra/studies/{accession}:
+    get:
+      operationId: study_by_accession_sra_studies__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Study By Accession
+      tags:
+      - SRA
+      - SRA
+  /sra/studies:
+    get:
+      operationId: studies_sra_studies_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Studies
+      tags:
+      - SRA
+      - SRA
+  /sra/studies/{accession}/samples:
+    get:
+      operationId: samples_for_study_sra_studies__accession__samples_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Samples For Study
+      tags:
+      - SRA
+      - SRA
+  /sra/studies/{accession}/experiments:
+    get:
+      operationId: experiments_for_study_sra_studies__accession__experiments_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Experiments For Study
+      tags:
+      - SRA
+      - SRA
+  /sra/studies/{accession}/runs:
+    get:
+      operationId: runs_for_study_sra_studies__accession__runs_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Runs For Study
+      tags:
+      - SRA
+      - SRA
+  /sra/samples/{accession}:
+    get:
+      operationId: sample_by_accession_sra_samples__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Sample By Accession
+      tags:
+      - SRA
+      - SRA
+  /sra/samples:
+    get:
+      operationId: samples_sra_samples_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Samples
+      tags:
+      - SRA
+      - SRA
+  /sra/samples/{accession}/experiments:
+    get:
+      operationId: experiments_for_sample_sra_samples__accession__experiments_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Experiments For Sample
+      tags:
+      - SRA
+      - SRA
+  /sra/samples/{accession}/runs:
+    get:
+      operationId: runs_for_sample_sra_samples__accession__runs_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Runs For Sample
+      tags:
+      - SRA
+      - SRA
+  /sra/experiments/{accession}:
+    get:
+      operationId: experiment_by_accession_sra_experiments__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Experiment By Accession
+      tags:
+      - SRA
+      - SRA
+  /sra/experiments:
+    get:
+      operationId: experiments_sra_experiments_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Experiments
+      tags:
+      - SRA
+      - SRA
+  /sra/experiments/{accession}/runs:
+    get:
+      operationId: runs_for_experiment_sra_experiments__accession__runs_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Runs For Experiment
+      tags:
+      - SRA
+      - SRA
+  /sra/runs/{accession}:
+    get:
+      operationId: run_by_accession_sra_runs__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Run By Accession
+      tags:
+      - SRA
+      - SRA
+  /sra/runs:
+    get:
+      operationId: runs_sra_runs_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Runs
+      tags:
+      - SRA
+      - SRA
+  /biosample/fields/{entity}:
+    get:
+      operationId: mapping_biosample_fields__entity__get
+      parameters:
+      - explode: false
+        in: path
+        name: entity
+        required: true
+        schema:
+          title: Entity
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Mapping
+      tags:
+      - Biosample
+  /biosample/samples:
+    get:
+      operationId: biosamples_biosample_samples_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Biosamples
+      tags:
+      - Biosample
+      - Biosample
+  /biosample/samples/{accession}:
+    get:
+      operationId: biosample_by_accession_biosample_samples__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Biosample By Accession
+      tags:
+      - Biosample
+      - Biosample
+  /geo/fields/{entity}:
+    get:
+      operationId: mapping_geo_fields__entity__get
+      parameters:
+      - explode: false
+        in: path
+        name: entity
+        required: true
+        schema:
+          enum:
+          - series
+          - sample
+          - platform
+          title: Entity
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Mapping
+      tags:
+      - GEO
+  /geo/series/{accession}:
+    get:
+      operationId: series_by_accession_geo_series__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Series By Accession
+      tags:
+      - GEO
+      - GEO
+  /geo/series:
+    get:
+      operationId: series_geo_series_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Series
+      tags:
+      - GEO
+      - GEO
+  /geo/platforms/{accession}/samples:
+    get:
+      operationId: samples_for_platform_geo_platforms__accession__samples_get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          title: Cursor
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Samples For Platform
+      tags:
+      - GEO
+      - GEO
+  /geo/platform/{accession}:
+    get:
+      operationId: platform_by_accession_geo_platform__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Platform By Accession
+      tags:
+      - GEO
+      - GEO
+  /geo/platforms:
+    get:
+      operationId: platform_geo_platforms_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Platform
+      tags:
+      - GEO
+      - GEO
+  /geo/samples/{accession}:
+    get:
+      operationId: sample_by_accession_geo_samples__accession__get
+      parameters:
+      - description: An accession for lookup
+        explode: false
+        in: path
+        name: accession
+        required: true
+        schema:
+          description: An accession for lookup
+          title: Accession
+          type: string
+        style: simple
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Sample By Accession
+      tags:
+      - GEO
+      - GEO
+  /geo/samples:
+    get:
+      operationId: samples_geo_samples_get
+      parameters:
+      - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
+          example: cancer
+          title: Q
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          example: 10
+          title: Size
+          type: integer
+        style: form
+      - description: The cursor is used to scroll through results. For a query with
+          more results than `size`, the result will include `cursor` in the result
+          json. Use that value here and re-issue the query. The next set or results
+          will be returned. When no more results are available, the `cursor` will
+          again be empty in the result json.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          description: The cursor is used to scroll through results. For a query with
+            more results than `size`, the result will include `cursor` in the result
+            json. Use that value here and re-issue the query. The next set or results
+            will be returned. When no more results are available, the `cursor` will
+            again be empty in the result json.
+          title: Cursor
+          type: string
+        style: form
+      - description: The maximum number of records returned for each facet. This has
+          no effect unless one or more facets are specified.
+        explode: true
+        in: query
+        name: facet_size
+        required: false
+        schema:
+          default: 10
+          description: The maximum number of records returned for each facet. This
+            has no effect unless one or more facets are specified.
+          example: 10
+          title: Facet_Size
+          type: integer
+        style: form
+      - description: Fields to include in results. The default is to all fields (*)
+        explode: true
+        in: query
+        name: include_fields
+        required: false
+        schema:
+          default: []
+          description: Fields to include in results. The default is to all fields
+            (*)
+          example:
+          - '*'
+          items:
+            type: string
+          title: Include_Fields
+          type: array
+        style: form
+      - description: 'Fields to exclude from results. The default is to not exclude
+          any fields. '
+        explode: true
+        in: query
+        name: exclude_fields
+        required: false
+        schema:
+          default: []
+          description: 'Fields to exclude from results. The default is to not exclude
+            any fields. '
+          items:
+            type: string
+          title: Exclude_Fields
+          type: array
+        style: form
+      - description: A list of strings identifying fields for faceted search results.
+          Simple term faceting is used here, meaning that fields that are short text
+          and repeated across records will be binned and counted.
+        explode: true
+        in: query
+        name: facets
+        required: false
+        schema:
+          default: []
+          description: A list of strings identifying fields for faceted search results.
+            Simple term faceting is used here, meaning that fields that are short
+            text and repeated across records will be binned and counted.
+          items:
+            type: string
+          title: Facets
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Samples
+      tags:
+      - GEO
+      - GEO
+  /facets/{entity}:
+    get:
+      description: Return the available facet fields for an entity
+      operationId: facets_by_index_facets__entity__get
+      parameters:
+      - explode: false
+        in: path
+        name: entity
+        required: true
+        schema:
+          title: Entity
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                title: Response_Facets_By_Index_Facets__Entity__Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Facets By Index
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ResponseModel:
+      example:
+        hits:
+        - '{}'
+        - '{}'
+        cursor: cursor
+        stats:
+          took: 6.027456183070403
+          total: 0
+        success: true
+        facets:
+        - '{}'
+        - '{}'
+      properties:
+        hits:
+          items:
+            type: object
+          title: Hits
+          type: array
+        facets:
+          items:
+            type: object
+          title: Facets
+          type: array
+        stats:
+          $ref: '#/components/schemas/ResponseStats'
+        success:
+          title: Success
+          type: boolean
+        cursor:
+          title: Cursor
+          type: string
+      required:
+      - facets
+      - hits
+      - stats
+      - success
+      title: ResponseModel
+      type: object
+    ResponseStats:
+      example:
+        took: 6.027456183070403
+        total: 0
+      properties:
+        total:
+          title: Total
+          type: integer
+        took:
+          title: Took
+          type: number
+      required:
+      - took
+      - total
+      title: ResponseStats
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            type: string
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
