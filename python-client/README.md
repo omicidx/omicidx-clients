@@ -6,7 +6,7 @@
 The OmicIDX API documentation is available in three forms:
 
 - [RapiDoc](/docs)
-- [OpenAPI/Swagger Interactive](/swatterdoc)
+- [OpenAPI/Swagger Interactive](/swaggerdoc)
 - [ReDoc (more readable in some ways)](/redoc)
 
 
@@ -87,53 +87,31 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BiosampleApi* | [**biosample_fields_entity_get**](docs/BiosampleApi.md#biosample_fields_entity_get) | **GET** /biosample/fields/{entity} | Mapping
 *BiosampleApi* | [**biosample_samples_get**](docs/BiosampleApi.md#biosample_samples_get) | **GET** /biosample/samples | Biosamples
-*BiosampleApi* | [**biosample_samples_get_0**](docs/BiosampleApi.md#biosample_samples_get_0) | **GET** /biosample/samples | Biosamples
 *BiosampleApi* | [**by_accession_biosample_samples_accession_get**](docs/BiosampleApi.md#by_accession_biosample_samples_accession_get) | **GET** /biosample/samples/{accession} | Biosample By Accession
-*BiosampleApi* | [**by_accession_biosample_samples_accession_get_0**](docs/BiosampleApi.md#by_accession_biosample_samples_accession_get_0) | **GET** /biosample/samples/{accession} | Biosample By Accession
 *GEOApi* | [**by_accession_geo_platform_accession_get**](docs/GEOApi.md#by_accession_geo_platform_accession_get) | **GET** /geo/platform/{accession} | Platform By Accession
-*GEOApi* | [**by_accession_geo_platform_accession_get_0**](docs/GEOApi.md#by_accession_geo_platform_accession_get_0) | **GET** /geo/platform/{accession} | Platform By Accession
 *GEOApi* | [**by_accession_geo_samples_accession_get**](docs/GEOApi.md#by_accession_geo_samples_accession_get) | **GET** /geo/samples/{accession} | Sample By Accession
-*GEOApi* | [**by_accession_geo_samples_accession_get_0**](docs/GEOApi.md#by_accession_geo_samples_accession_get_0) | **GET** /geo/samples/{accession} | Sample By Accession
 *GEOApi* | [**by_accession_geo_series_accession_get**](docs/GEOApi.md#by_accession_geo_series_accession_get) | **GET** /geo/series/{accession} | Series By Accession
-*GEOApi* | [**by_accession_geo_series_accession_get_0**](docs/GEOApi.md#by_accession_geo_series_accession_get_0) | **GET** /geo/series/{accession} | Series By Accession
 *GEOApi* | [**for_platform_geo_platforms_accession_samples_get**](docs/GEOApi.md#for_platform_geo_platforms_accession_samples_get) | **GET** /geo/platforms/{accession}/samples | Samples For Platform
-*GEOApi* | [**for_platform_geo_platforms_accession_samples_get_0**](docs/GEOApi.md#for_platform_geo_platforms_accession_samples_get_0) | **GET** /geo/platforms/{accession}/samples | Samples For Platform
 *GEOApi* | [**geo_fields_entity_get**](docs/GEOApi.md#geo_fields_entity_get) | **GET** /geo/fields/{entity} | Mapping
-*GEOApi* | [**geo_platforms_get**](docs/GEOApi.md#geo_platforms_get) | **GET** /geo/platforms | Platform
-*GEOApi* | [**geo_platforms_get_0**](docs/GEOApi.md#geo_platforms_get_0) | **GET** /geo/platforms | Platform
-*GEOApi* | [**geo_samples_get**](docs/GEOApi.md#geo_samples_get) | **GET** /geo/samples | Samples
-*GEOApi* | [**geo_samples_get_0**](docs/GEOApi.md#geo_samples_get_0) | **GET** /geo/samples | Samples
-*GEOApi* | [**geo_series_get**](docs/GEOApi.md#geo_series_get) | **GET** /geo/series | Series
-*GEOApi* | [**geo_series_get_0**](docs/GEOApi.md#geo_series_get_0) | **GET** /geo/series | Series
+*GEOApi* | [**platforms_geo_platforms_get**](docs/GEOApi.md#platforms_geo_platforms_get) | **GET** /geo/platforms | Search Platforms
+*GEOApi* | [**samples_geo_samples_get**](docs/GEOApi.md#samples_geo_samples_get) | **GET** /geo/samples | Search Samples
+*GEOApi* | [**series_geo_series_get**](docs/GEOApi.md#series_geo_series_get) | **GET** /geo/series | Search Series
+*GEOPlatformsApi* | [**by_accession_geo_platform_accession_get**](docs/GEOPlatformsApi.md#by_accession_geo_platform_accession_get) | **GET** /geo/platform/{accession} | Platform By Accession
 *SRAApi* | [**by_accession_sra_experiments_accession_get**](docs/SRAApi.md#by_accession_sra_experiments_accession_get) | **GET** /sra/experiments/{accession} | Experiment By Accession
-*SRAApi* | [**by_accession_sra_experiments_accession_get_0**](docs/SRAApi.md#by_accession_sra_experiments_accession_get_0) | **GET** /sra/experiments/{accession} | Experiment By Accession
 *SRAApi* | [**by_accession_sra_runs_accession_get**](docs/SRAApi.md#by_accession_sra_runs_accession_get) | **GET** /sra/runs/{accession} | Run By Accession
-*SRAApi* | [**by_accession_sra_runs_accession_get_0**](docs/SRAApi.md#by_accession_sra_runs_accession_get_0) | **GET** /sra/runs/{accession} | Run By Accession
 *SRAApi* | [**by_accession_sra_samples_accession_get**](docs/SRAApi.md#by_accession_sra_samples_accession_get) | **GET** /sra/samples/{accession} | Sample By Accession
-*SRAApi* | [**by_accession_sra_samples_accession_get_0**](docs/SRAApi.md#by_accession_sra_samples_accession_get_0) | **GET** /sra/samples/{accession} | Sample By Accession
 *SRAApi* | [**by_accession_sra_studies_accession_get**](docs/SRAApi.md#by_accession_sra_studies_accession_get) | **GET** /sra/studies/{accession} | Study By Accession
-*SRAApi* | [**by_accession_sra_studies_accession_get_0**](docs/SRAApi.md#by_accession_sra_studies_accession_get_0) | **GET** /sra/studies/{accession} | Study By Accession
 *SRAApi* | [**for_experiment_sra_experiments_accession_runs_get**](docs/SRAApi.md#for_experiment_sra_experiments_accession_runs_get) | **GET** /sra/experiments/{accession}/runs | Runs For Experiment
-*SRAApi* | [**for_experiment_sra_experiments_accession_runs_get_0**](docs/SRAApi.md#for_experiment_sra_experiments_accession_runs_get_0) | **GET** /sra/experiments/{accession}/runs | Runs For Experiment
 *SRAApi* | [**for_sample_sra_samples_accession_experiments_get**](docs/SRAApi.md#for_sample_sra_samples_accession_experiments_get) | **GET** /sra/samples/{accession}/experiments | Experiments For Sample
-*SRAApi* | [**for_sample_sra_samples_accession_experiments_get_0**](docs/SRAApi.md#for_sample_sra_samples_accession_experiments_get_0) | **GET** /sra/samples/{accession}/experiments | Experiments For Sample
 *SRAApi* | [**for_sample_sra_samples_accession_runs_get**](docs/SRAApi.md#for_sample_sra_samples_accession_runs_get) | **GET** /sra/samples/{accession}/runs | Runs For Sample
-*SRAApi* | [**for_sample_sra_samples_accession_runs_get_0**](docs/SRAApi.md#for_sample_sra_samples_accession_runs_get_0) | **GET** /sra/samples/{accession}/runs | Runs For Sample
 *SRAApi* | [**for_study_sra_studies_accession_experiments_get**](docs/SRAApi.md#for_study_sra_studies_accession_experiments_get) | **GET** /sra/studies/{accession}/experiments | Experiments For Study
-*SRAApi* | [**for_study_sra_studies_accession_experiments_get_0**](docs/SRAApi.md#for_study_sra_studies_accession_experiments_get_0) | **GET** /sra/studies/{accession}/experiments | Experiments For Study
 *SRAApi* | [**for_study_sra_studies_accession_runs_get**](docs/SRAApi.md#for_study_sra_studies_accession_runs_get) | **GET** /sra/studies/{accession}/runs | Runs For Study
-*SRAApi* | [**for_study_sra_studies_accession_runs_get_0**](docs/SRAApi.md#for_study_sra_studies_accession_runs_get_0) | **GET** /sra/studies/{accession}/runs | Runs For Study
 *SRAApi* | [**for_study_sra_studies_accession_samples_get**](docs/SRAApi.md#for_study_sra_studies_accession_samples_get) | **GET** /sra/studies/{accession}/samples | Samples For Study
-*SRAApi* | [**for_study_sra_studies_accession_samples_get_0**](docs/SRAApi.md#for_study_sra_studies_accession_samples_get_0) | **GET** /sra/studies/{accession}/samples | Samples For Study
 *SRAApi* | [**sra_experiments_get**](docs/SRAApi.md#sra_experiments_get) | **GET** /sra/experiments | Experiments
-*SRAApi* | [**sra_experiments_get_0**](docs/SRAApi.md#sra_experiments_get_0) | **GET** /sra/experiments | Experiments
 *SRAApi* | [**sra_fields_entity_get**](docs/SRAApi.md#sra_fields_entity_get) | **GET** /sra/fields/{entity} | Mapping
 *SRAApi* | [**sra_runs_get**](docs/SRAApi.md#sra_runs_get) | **GET** /sra/runs | Runs
-*SRAApi* | [**sra_runs_get_0**](docs/SRAApi.md#sra_runs_get_0) | **GET** /sra/runs | Runs
 *SRAApi* | [**sra_samples_get**](docs/SRAApi.md#sra_samples_get) | **GET** /sra/samples | Samples
-*SRAApi* | [**sra_samples_get_0**](docs/SRAApi.md#sra_samples_get_0) | **GET** /sra/samples | Samples
 *SRAApi* | [**sra_studies_get**](docs/SRAApi.md#sra_studies_get) | **GET** /sra/studies | Studies
-*SRAApi* | [**sra_studies_get_0**](docs/SRAApi.md#sra_studies_get_0) | **GET** /sra/studies | Studies
 *DefaultApi* | [**by_index_facets_entity_get**](docs/DefaultApi.md#by_index_facets_entity_get) | **GET** /facets/{entity} | Facets By Index
 
 

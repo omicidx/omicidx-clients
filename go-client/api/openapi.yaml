@@ -8,7 +8,7 @@ info:
     The OmicIDX API documentation is available in three forms:
 
     - [RapiDoc](/docs)
-    - [OpenAPI/Swagger Interactive](/swatterdoc)
+    - [OpenAPI/Swagger Interactive](/swaggerdoc)
     - [ReDoc (more readable in some ways)](/redoc)
 
   title: OmicIDX
@@ -107,7 +107,6 @@ paths:
           description: Validation Error
       summary: Study By Accession
       tags:
-      - SRA
       - SRA
   /sra/studies:
     get:
@@ -230,7 +229,6 @@ paths:
       summary: Studies
       tags:
       - SRA
-      - SRA
   /sra/studies/{accession}/samples:
     get:
       operationId: samples_for_study_sra_studies__accession__samples_get
@@ -308,7 +306,6 @@ paths:
           description: Validation Error
       summary: Samples For Study
       tags:
-      - SRA
       - SRA
   /sra/studies/{accession}/experiments:
     get:
@@ -388,7 +385,6 @@ paths:
       summary: Experiments For Study
       tags:
       - SRA
-      - SRA
   /sra/studies/{accession}/runs:
     get:
       operationId: runs_for_study_sra_studies__accession__runs_get
@@ -467,7 +463,6 @@ paths:
       summary: Runs For Study
       tags:
       - SRA
-      - SRA
   /sra/samples/{accession}:
     get:
       operationId: sample_by_accession_sra_samples__accession__get
@@ -527,7 +522,6 @@ paths:
           description: Validation Error
       summary: Sample By Accession
       tags:
-      - SRA
       - SRA
   /sra/samples:
     get:
@@ -650,7 +644,6 @@ paths:
       summary: Samples
       tags:
       - SRA
-      - SRA
   /sra/samples/{accession}/experiments:
     get:
       operationId: experiments_for_sample_sra_samples__accession__experiments_get
@@ -728,7 +721,6 @@ paths:
           description: Validation Error
       summary: Experiments For Sample
       tags:
-      - SRA
       - SRA
   /sra/samples/{accession}/runs:
     get:
@@ -808,7 +800,6 @@ paths:
       summary: Runs For Sample
       tags:
       - SRA
-      - SRA
   /sra/experiments/{accession}:
     get:
       operationId: experiment_by_accession_sra_experiments__accession__get
@@ -868,7 +859,6 @@ paths:
           description: Validation Error
       summary: Experiment By Accession
       tags:
-      - SRA
       - SRA
   /sra/experiments:
     get:
@@ -991,7 +981,6 @@ paths:
       summary: Experiments
       tags:
       - SRA
-      - SRA
   /sra/experiments/{accession}/runs:
     get:
       operationId: runs_for_experiment_sra_experiments__accession__runs_get
@@ -1070,7 +1059,6 @@ paths:
       summary: Runs For Experiment
       tags:
       - SRA
-      - SRA
   /sra/runs/{accession}:
     get:
       operationId: run_by_accession_sra_runs__accession__get
@@ -1130,7 +1118,6 @@ paths:
           description: Validation Error
       summary: Run By Accession
       tags:
-      - SRA
       - SRA
   /sra/runs:
     get:
@@ -1252,7 +1239,6 @@ paths:
           description: Validation Error
       summary: Runs
       tags:
-      - SRA
       - SRA
   /biosample/fields/{entity}:
     get:
@@ -1402,7 +1388,6 @@ paths:
       summary: Biosamples
       tags:
       - Biosample
-      - Biosample
   /biosample/samples/{accession}:
     get:
       operationId: biosample_by_accession_biosample_samples__accession__get
@@ -1462,7 +1447,6 @@ paths:
           description: Validation Error
       summary: Biosample By Accession
       tags:
-      - Biosample
       - Biosample
   /geo/fields/{entity}:
     get:
@@ -1555,10 +1539,9 @@ paths:
       summary: Series By Accession
       tags:
       - GEO
-      - GEO
   /geo/series:
     get:
-      operationId: series_geo_series_get
+      operationId: search_series_geo_series_get
       parameters:
       - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
         explode: true
@@ -1674,9 +1657,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Series
+      summary: Search Series
       tags:
-      - GEO
       - GEO
   /geo/platforms/{accession}/samples:
     get:
@@ -1756,7 +1738,6 @@ paths:
       summary: Samples For Platform
       tags:
       - GEO
-      - GEO
   /geo/platform/{accession}:
     get:
       operationId: platform_by_accession_geo_platform__accession__get
@@ -1816,11 +1797,11 @@ paths:
           description: Validation Error
       summary: Platform By Accession
       tags:
-      - GEO
+      - GEO Platforms
       - GEO
   /geo/platforms:
     get:
-      operationId: platform_geo_platforms_get
+      operationId: search_platforms_geo_platforms_get
       parameters:
       - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
         explode: true
@@ -1936,9 +1917,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Platform
+      summary: Search Platforms
       tags:
-      - GEO
       - GEO
   /geo/samples/{accession}:
     get:
@@ -2000,10 +1980,9 @@ paths:
       summary: Sample By Accession
       tags:
       - GEO
-      - GEO
   /geo/samples:
     get:
-      operationId: samples_geo_samples_get
+      operationId: search_samples_geo_samples_get
       parameters:
       - description: The query, using [lucene query syntax](https://lucene.apache.org/core/3_6_0/queryparsersyntax.html)
         explode: true
@@ -2119,9 +2098,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Samples
+      summary: Search Samples
       tags:
-      - GEO
       - GEO
   /facets/{entity}:
     get:

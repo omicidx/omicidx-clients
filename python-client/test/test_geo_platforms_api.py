@@ -15,23 +15,23 @@ from __future__ import absolute_import
 import unittest
 
 import omicidx_client
-from omicidx_client.api.default_api import DefaultApi  # noqa: E501
+from omicidx_client.api.geo_platforms_api import GEOPlatformsApi  # noqa: E501
 from omicidx_client.rest import ApiException
 
 
-class TestDefaultApi(unittest.TestCase):
-    """DefaultApi unit test stubs"""
+class TestGEOPlatformsApi(unittest.TestCase):
+    """GEOPlatformsApi unit test stubs"""
 
     def setUp(self):
-        self.api = omicidx_client.api.default_api.DefaultApi()  # noqa: E501
+        self.api = omicidx_client.api.geo_platforms_api.GEOPlatformsApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_by_index_facets_entity_get(self):
-        """Test case for by_index_facets_entity_get
+    def test_by_accession_geo_platform_accession_get(self):
+        """Test case for by_accession_geo_platform_accession_get
 
-        Facets By Index  # noqa: E501
+        Platform By Accession  # noqa: E501
         """
         pass
 

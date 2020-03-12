@@ -15,6 +15,8 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
+	"reflect"
+	"github.com/antihax/optional"
 )
 
 // Linger please
@@ -22,34 +24,64 @@ var (
 	_ _context.Context
 )
 
-// DefaultApiService DefaultApi service
-type DefaultApiService service
+// GEOPlatformsApiService GEOPlatformsApi service
+type GEOPlatformsApiService service
+
+// ByAccessionGeoPlatformAccessionGetOpts Optional parameters for the method 'ByAccessionGeoPlatformAccessionGet'
+type ByAccessionGeoPlatformAccessionGetOpts struct {
+    IncludeFields optional.Interface
+    ExcludeFields optional.Interface
+}
 
 /*
-ByIndexFacetsEntityGet Facets By Index
-Return the available facet fields for an entity
+ByAccessionGeoPlatformAccessionGet Platform By Accession
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param entity
-@return []string
+ * @param accession An accession for lookup
+ * @param optional nil or *ByAccessionGeoPlatformAccessionGetOpts - Optional Parameters:
+ * @param "IncludeFields" (optional.Interface of []string) -  Fields to include in results. The default is to all fields (*)
+ * @param "ExcludeFields" (optional.Interface of []string) -  Fields to exclude from results. The default is to not exclude any fields. 
+@return map[string]interface{}
 */
-func (a *DefaultApiService) ByIndexFacetsEntityGet(ctx _context.Context, entity map[string]interface{}) ([]string, *_nethttp.Response, error) {
+func (a *GEOPlatformsApiService) ByAccessionGeoPlatformAccessionGet(ctx _context.Context, accession string, localVarOptionals *ByAccessionGeoPlatformAccessionGetOpts) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  []string
+		localVarReturnValue  map[string]interface{}
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/facets/{entity}"
-	localVarPath = strings.Replace(localVarPath, "{"+"entity"+"}", _neturl.QueryEscape(parameterToString(entity, "")) , -1)
+	localVarPath := a.client.cfg.BasePath + "/geo/platform/{accession}"
+	localVarPath = strings.Replace(localVarPath, "{"+"accession"+"}", _neturl.QueryEscape(parameterToString(accession, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
+	if localVarOptionals != nil && localVarOptionals.IncludeFields.IsSet() {
+		t:=localVarOptionals.IncludeFields.Value()
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("include_fields", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("include_fields", parameterToString(t, "multi"))
+		}
+	}
+	if localVarOptionals != nil && localVarOptionals.ExcludeFields.IsSet() {
+		t:=localVarOptionals.ExcludeFields.Value()
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("exclude_fields", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("exclude_fields", parameterToString(t, "multi"))
+		}
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -89,7 +121,7 @@ func (a *DefaultApiService) ByIndexFacetsEntityGet(ctx _context.Context, entity 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
-			var v []string
+			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
